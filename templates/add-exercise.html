@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Exercise</title>
+</head>
+<body>
+
+    <header>
+        <h1>Fitness Database</h1>
+    </header>
+    
+    <form action="/add-exercise" method="POST">
+        <label for="exercise">Exercise name</label>
+        <input type="text" id="exercise" name="exercise">
+
+        <label for="primary-muscle">Primary Muscle</label>
+        <input type="text" id="primary-muscle" name="primary-muscle">
+
+        <label for="similar-exercises">Similar Exercises</label>
+        <input type="text" id="similar-exercises" name="similar-exercises" placeholder="comma separated">
+
+        <button type="submit">Add exercise</button>
+    </form>
+
+    <ul>
+        {% for exercise in exercises %}
+        <li>
+            <b> Exercise name:</b>{{exercise.name}}
+            <b>Primary Muscle:</b>  {{exercise.primary_muscle}}
+            {% if exercise.similar_exercises %}
+            <b>Similar Exercises:</b>  {% for exe in exercise.similar_exercises %} {{exe}} {% endfor %}
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
