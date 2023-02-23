@@ -14,21 +14,25 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    exercises = Exercise.query.all()
-    return render_template('add-exercise.html', exercises=exercises)
+    # exercises = Exercise.query.all()
+    
     # return jsonify({
     #     'name': [exercise.name for exercise in exercises],
     #     'success': True
     # })
+    return redirect('/get-exercises')
 
 @app.route('/get-exercises')
 def get_exercises():
     exercises = Exercise.query.all()
     return jsonify({
-        'exercise': [exercise.name for exercise in exercises],
-        'similar exercises': [exercise.similar_exercises for exercise in exercises],
-        'success': True
+        # 'exercise': [exercise.name for exercise in exercises],
+        # 'similar exercises': [exercise.similar_exercises for exercise in exercises],
+        'success': True,
+        "exercises" : [exercise.format() for exercise in exercises]
     })
+
+###### ADMIN DASHBOARD #######
 
 @app.route('/add-exercise', methods=['POST'])
 def add_exercise():
@@ -43,3 +47,8 @@ def add_exercise():
     db.session.commit()
 
     return redirect('/')
+
+@app.route('/admin')
+def dashboard():
+    exercises = Exercise.query.all()
+    return render_template('add-exercise.html', exercises=exercises)

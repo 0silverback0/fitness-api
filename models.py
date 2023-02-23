@@ -16,4 +16,11 @@ class Exercise(db.Model):
     primary_muscle = db.Column(db.String, nullable=False)
     similar_exercises = db.Column(db.ARRAY(db.String))
 
+    def format(self):
+        return {
+            "name": self.name,
+            "primary_muscle": self.primary_muscle,
+            "similar_exercises": self.similar_exercises
+        }
+
     
