@@ -113,9 +113,12 @@ def add_exercise():
             primary_muscle = form.primary_muscle.data
             region = form.region.data
             movement_type = form.movement_type.data
+            difficulty = form.difficulty.data
+            description = form.description.data
 
             new_exercise = Exercise(name=name, primary_muscle=primary_muscle,
-            region=region,movement_type=movement_type)
+            region=region,movement_type=movement_type, difficulty=difficulty,
+            description=description)
             new_exercise.insert()
 
             return redirect('/admin')
@@ -124,7 +127,7 @@ def add_exercise():
             'success': False,
             'error': str(error)
         })
-    #### returns here when error ####
+    #### returns here when error ??? ####
     return redirect('/admin')
     
 
@@ -140,16 +143,20 @@ def edit_exercise(id):
         if form.validate_on_submit():
             exercise.name = form.name.data
             exercise.primary_muscle = form.primary_muscle.data
-            # exercise.similar_exercises = form.similar_exercises.data.split(',')
             exercise.region = form.region.data
             exercise.movement_type = form.movement_type.data
+            exercise.difficulty = form.difficulty.data
+            exercise.description = form.description.data
 
             exercise.update()
 
             return redirect('/admin')
     except Exception as e:
-        print(e)
+        return jsonify({
+            'error': str(e)
+        })
    
+   #flash error here
     return render_template('edit-exercise.html', form=form, exercise=exercise)
 
 

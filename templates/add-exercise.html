@@ -52,6 +52,8 @@
             <!-- <th scope="col">Similar Exercises</th> -->
             <th scope="col">Region</th>
             <th scope="col">Movement Type</th>
+            <th scope="col">Difficulty</th>
+            <th scope="col">Description</th>
             <th scope="'col">Edit</th>
             <th scope="col">Delete</th>
           </tr>
@@ -62,9 +64,10 @@
             <th scope="row">{{exercise.id}}</th>
             <td>{{exercise.name}}</td>
             <td>{{exercise.primary_muscle}}</td>
-            <!-- <td>{{exercise.similar_exercises}}</td> -->
             <td>{{exercise.region}}</td>
             <td>{{exercise.movement_type}}</td>
+            <td>{{exercise.difficulty}}</td>
+            <td>{{exercise.description}}</td>
             <td><a href="/edit/{{exercise.id}}">Edit</a></td>
             <td><a href="/delete/{{exercise.id}}">X</a></td>
           </tr>

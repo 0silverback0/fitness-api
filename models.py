@@ -26,7 +26,9 @@ class Exercise(db.Model):
             "name": self.name,
             "primary_muscle": self.primary_muscle,
             "region": self.region,
-            "movement_type": self.movement_type
+            "movement_type": self.movement_type,
+            "difficulty": self.difficulty,
+            "description": self.description
         }
 
     def insert(self):
