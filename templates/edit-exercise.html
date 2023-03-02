@@ -1,0 +1,30 @@
+{% extends 'add-exercise.html' %}
+
+{% block content %}
+
+<h3 class="text-center">Edit exercise id: {{exercise.id}}</h3>
+<div class="container d-flex justify-content-center">
+
+    <form class="mt-5 edit-form" method="POST" action="/edit/{{exercise.id}}">
+    {{ form.hidden_tag() }}
+
+    {% for field in form
+          if field.widget.input_type != 'hidden' %}
+
+      <p class="form-control">
+        {{ field.label }}
+        {{ field }}
+
+        {% for error in field.errors %}
+          {{ error }}
+        {% endfor %}
+      </p>
+    
+    {% endfor %}
+    
+    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+    </form>
+    
+  </div>
+
+{% endblock %}
