@@ -107,26 +107,20 @@ def dashboard():
 @app.route('/add-exercise', methods=['POST'])
 def add_exercise():
     form = DataForm()
-    try:
-        if form.validate_on_submit():
-            name = form.name.data
-            primary_muscle = form.primary_muscle.data
-            region = form.region.data
-            movement_type = form.movement_type.data
-            difficulty = form.difficulty.data
-            description = form.description.data
+    if form.validate_on_submit():
+        name = form.name.data
+        primary_muscle = form.primary_muscle.data
+        region = form.region.data
+        movement_type = form.movement_type.data
+        difficulty = form.difficulty.data
+        description = form.description.data
 
-            new_exercise = Exercise(name=name, primary_muscle=primary_muscle,
-            region=region,movement_type=movement_type, difficulty=difficulty,
-            description=description)
-            new_exercise.insert()
+        new_exercise = Exercise(name=name, primary_muscle=primary_muscle,
+        region=region,movement_type=movement_type, difficulty=difficulty,
+        description=description)
+        new_exercise.insert()
 
-            return redirect('/admin')
-    except Exception as error:
-        return jsonify({
-            'success': False,
-            'error': str(error)
-        })
+        return redirect('/admin')
     #### returns here when error ??? ####
     return redirect('/admin')
     
