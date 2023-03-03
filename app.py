@@ -1,12 +1,13 @@
 import json
 from sqlite3 import IntegrityError
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, flash
 from models import connect_db, db, Exercise
 from forms import DataForm
 from flask_migrate import Migrate
 import os
 from flask_cors import CORS
-from sqlalchemy import exc 
+from sqlalchemy import exc
+from psycopg2 import errorcodes, errors, Error
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -104,25 +105,32 @@ def dashboard():
 
 
 ####### ADD EXERCISE #########
-@app.route('/add-exercise', methods=['POST'])
+@app.route('/add-exercise', methods=['POST', 'GET'])
 def add_exercise():
     form = DataForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        primary_muscle = form.primary_muscle.data
-        region = form.region.data
-        movement_type = form.movement_type.data
-        difficulty = form.difficulty.data
-        description = form.description.data
+    try:
+        if form.validate_on_submit():
+            name = form.name.data
+            primary_muscle = form.primary_muscle.data
+            region = form.region.data
+            movement_type = form.movement_type.data
+            difficulty = form.difficulty.data
+            description = form.description.data
 
-        new_exercise = Exercise(name=name, primary_muscle=primary_muscle,
-        region=region,movement_type=movement_type, difficulty=difficulty,
-        description=description)
-        new_exercise.insert()
-
-        return redirect('/admin')
-    #### returns here when error ??? ####
-    return redirect('/admin')
+            new_exercise = Exercise(name=name, primary_muscle=primary_muscle,
+            region=region,movement_type=movement_type, difficulty=difficulty,
+            description=description)
+            new_exercise.insert()
+            flash('Exercise Added')
+            return redirect('/admin')
+    except exc.IntegrityError as error:
+        return jsonify({
+            'success': False,
+            'error': str(error)
+        })
+    
+    flash('Something went wrong')
+    return render_template('add-exercise.html', form=form)
     
 
 

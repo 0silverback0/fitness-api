@@ -14,6 +14,18 @@
     <header>
         <h1 class="text-center"> <a href="/admin">Fitness Database</a> </h1>
     </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
+
     {% endblock %}
 
     {% block content %}
@@ -27,9 +39,9 @@
         {% for field in form
               if field.widget.input_type != 'hidden' %}
     
-          <p class="form-control">
+          <p>
             {{ field.label }}
-            {{ field }}
+            {{field(class_="form-control")}}
     
             {% for error in field.errors %}
               {{ error }}
@@ -43,37 +55,39 @@
         
       </div>
       
-    <table class="table table-dark mt-5">
-        <thead>
-          <tr>
-            <th scope="col">#ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Primary Muscle</th>
-            <!-- <th scope="col">Similar Exercises</th> -->
-            <th scope="col">Region</th>
-            <th scope="col">Movement Type</th>
-            <th scope="col">Difficulty</th>
-            <th scope="col">Description</th>
-            <th scope="'col">Edit</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for exercise in exercises %}
-          <tr>
-            <th scope="row">{{exercise.id}}</th>
-            <td>{{exercise.name}}</td>
-            <td>{{exercise.primary_muscle}}</td>
-            <td>{{exercise.region}}</td>
-            <td>{{exercise.movement_type}}</td>
-            <td>{{exercise.difficulty}}</td>
-            <td>{{exercise.description}}</td>
-            <td><a href="/edit/{{exercise.id}}">Edit</a></td>
-            <td><a href="/delete/{{exercise.id}}">X</a></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="table-responsive">
+      <table class="table table-dark mt-5" width="80%">
+          <thead>
+            <tr>
+              <th scope="col">#ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Primary Muscle</th>
+              <!-- <th scope="col">Similar Exercises</th> -->
+              <th scope="col">Region</th>
+              <th scope="col">Movement Type</th>
+              <th scope="col">Difficulty</th>
+              <th scope="col">Description</th>
+              <th scope="'col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for exercise in exercises %}
+            <tr>
+              <th scope="row">{{exercise.id}}</th>
+              <td>{{exercise.name}}</td>
+              <td>{{exercise.primary_muscle}}</td>
+              <td>{{exercise.region}}</td>
+              <td>{{exercise.movement_type}}</td>
+              <td>{{exercise.difficulty}}</td>
+              <td>{{exercise.description}}</td>
+              <td><a href="/edit/{{exercise.id}}">Edit</a></td>
+              <td><a href="/delete/{{exercise.id}}">X</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
 
       {% endblock %}
 
